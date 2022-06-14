@@ -1,5 +1,6 @@
 package cucumber.steps;
 
+import io.cucumber.docstring.DocString;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
@@ -23,10 +24,9 @@ public class UserStepDefinitions {
         expectedUser = user;
 
         given().
-                contentType(ContentType.JSON).
                 body(user).
         when().
-                post("http://localhost:12345/api" + endpoint).
+                post(endpoint).
         then().
                 contentType(ContentType.JSON).
                 statusCode(HttpStatus.SC_OK);
@@ -35,10 +35,21 @@ public class UserStepDefinitions {
     @Then("I do get {word}, the user created is returned")
     public void iDoGetVUserTheUserTheUserCreatedIsReturned(String endpoint) {
         when().
-                get("http://localhost:12345/api" + endpoint).
+                get(endpoint).
         then().
                 contentType(ContentType.JSON).
                 statusCode(HttpStatus.SC_OK).
                 body("username", is(expectedUser.get("username")));
+    }
+
+    @When("I do a post to {word} with docstring:")
+    public void iDoAPostToVUserWithDocstring(String endpoint, DocString docString) {
+        given().
+                body(docString.getContent()).
+        when().
+                post(endpoint).
+        then().
+                contentType(ContentType.JSON).
+                statusCode(HttpStatus.SC_OK);
     }
 }
