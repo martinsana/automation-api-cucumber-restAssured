@@ -28,7 +28,6 @@ public class UserStepDefinitions {
         when().
                 post(endpoint).
         then().
-                contentType(ContentType.JSON).
                 statusCode(HttpStatus.SC_OK);
     }
 
@@ -37,7 +36,6 @@ public class UserStepDefinitions {
         when().
                 get(endpoint).
         then().
-                contentType(ContentType.JSON).
                 statusCode(HttpStatus.SC_OK).
                 body("username", is(expectedUser.get("username")));
     }
@@ -49,7 +47,6 @@ public class UserStepDefinitions {
         when().
                 post(endpoint).
         then().
-                contentType(ContentType.JSON).
                 statusCode(HttpStatus.SC_OK);
     }
 }
