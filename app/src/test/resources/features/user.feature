@@ -28,3 +28,7 @@ Feature: User management
       }
       """
     Then I do get /v3/user/theUser, the user created is returned
+
+    Scenario: User created
+      Given I create a user
+      Then User is saved
