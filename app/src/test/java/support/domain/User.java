@@ -9,7 +9,7 @@ public class User {
     @Builder.Default
     private String id = "0";
     @Builder.Default
-    private String username = "theUser";
+    private String username = "johnny";
     @Builder.Default
     private String firstName = "John";
     @Builder.Default

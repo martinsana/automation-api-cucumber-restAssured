@@ -1,12 +1,20 @@
 package cucumber.steps;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
+import suport.api.UserApi;
 
 public class Config {
+
+    UserApi userApi;
+
+    public Config() {
+        userApi = new UserApi();
+    }
 
     @Before
     public void setup() {
@@ -19,8 +27,12 @@ public class Config {
                 setContentType(ContentType.JSON).
                 build();
 
-        RestAssured.responseSpecification = new ResponseSpecBuilder().
-                expectContentType(ContentType.JSON).
-                build();
+
+    }
+
+    @After("@deleteAllUsers")
+    public void deleteAllUsers() {
+        System.out.println("Deleting all users");
+        userApi.deleteAllUsers();
     }
 }

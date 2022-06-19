@@ -4,6 +4,9 @@ package suport.api;
 import org.apache.http.HttpStatus;
 import support.domain.User;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -29,4 +32,19 @@ public class UserApi {
                 path("username");
 
     }
+    
+    public void deleteAllUsers() {
+        List<String> userList = Arrays.asList("theUser");
+
+        for(String user: userList) {
+            given().
+                    pathParam("name", user).
+            when().
+                    delete(USER_ENDPOINT).
+            then().
+                    statusCode(HttpStatus.SC_OK);
+
+        }
+    }
+
 }
