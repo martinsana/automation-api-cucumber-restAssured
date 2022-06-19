@@ -23,5 +23,4 @@ public class User {
     @Builder.Default
     private String userStatus = "12345";
 
-    
 }
