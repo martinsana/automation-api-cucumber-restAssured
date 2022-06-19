@@ -1,6 +1,7 @@
 Feature: User management
   Business rules
 
+  @wip
   Scenario: Create a user
     When I do a post to /v3/user with:
       | id         | 10             |
