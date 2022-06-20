@@ -17,9 +17,9 @@ public class UserApi {
     public void createUser(User user) {
         given().
                 body(user).
-                when().
+        when().
                 post(CREATE_USER_ENDPOINT).
-                then().
+        then().
                 statusCode(HttpStatus.SC_OK);
     }
 
