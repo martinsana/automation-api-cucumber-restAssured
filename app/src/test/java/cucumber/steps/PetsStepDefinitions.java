@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import suport.api.PetApi;
 import support.domain.Pet;
 import support.domain.User;
@@ -32,8 +34,16 @@ public class PetsStepDefinitions {
 
     @When("I search for {word} pets")
     public void iSearchForAvailablePets(String status) {
-       actualPets = petApi.getPetsByStatus(status);
+       Response actualPetsResponse = petApi.getPetsResponseByStatus(status);
 
+       actualPets = actualPetsResponse.body().jsonPath().getList("", Pet.class);
+
+        actualPetsResponse.
+                then().
+                    statusCode(HttpStatus.SC_OK).
+                    body(
+                        "size()", is(actualPets.size()),
+                        "findAll { it.status == 'available' }.size()", is(actualPets.size()));
     }
 
     @Then("I see the list of available pets")

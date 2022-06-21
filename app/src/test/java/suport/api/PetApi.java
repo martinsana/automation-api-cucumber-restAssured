@@ -1,5 +1,6 @@
 package suport.api;
 
+import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import support.domain.Pet;
 
@@ -20,5 +21,14 @@ public class PetApi {
         then().
                 statusCode(HttpStatus.SC_OK).
                 extract().body().jsonPath().getList("", Pet.class);
+    }
+
+    public Response getPetsResponseByStatus(String status) {
+        return given().
+                pathParam("status", status).
+        when().
+                get(FIND_PETS_BY_STATUS_ENDPOINT);
+
+
     }
 }
