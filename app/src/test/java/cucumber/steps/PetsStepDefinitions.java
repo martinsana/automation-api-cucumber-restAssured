@@ -27,8 +27,8 @@ public class PetsStepDefinitions {
         petApi = new PetApi();
     }
 
-    @Given("I have available pets")
-    public void iHaveAvailablePets() throws JsonProcessingException {
+    @Given("I have {word} pets")
+    public void iHaveAvailablePets(String status) throws JsonProcessingException {
 
     }
 
@@ -43,11 +43,21 @@ public class PetsStepDefinitions {
                     statusCode(HttpStatus.SC_OK).
                     body(
                         "size()", is(actualPets.size()),
-                        "findAll { it.status == 'available' }.size()", is(actualPets.size()));
+                            "findAll { it.status == '" + status + "' }.size()", is(actualPets.size()));
     }
 
-    @Then("I see the list of available pets")
-    public void iSeeTheListOfAvailablePets() {
+    @Then("I see the list of {word} pets")
+    public void iSeeTheListOfAvailablePets(String status) {
         assertThat(actualPets, is(not(empty())));
+    }
+
+    @Then("I see the list with {int} pet/pets")
+    public void iSeeTheListWithPets(int petsQuantity) {
+        assertThat(actualPets.size(), is(petsQuantity));
+    }
+
+    @Given("I do not have {word} pets")
+    public void iDoNotHaveSoldPets(String status) {
+        petApi.deletePetsByStatus(status);
     }
 }
