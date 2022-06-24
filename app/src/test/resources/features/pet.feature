@@ -14,3 +14,9 @@ Feature: Pet management
     Examples: No Storage pets
       | status | quantity |
       | sold   | 0        |
+
+  Scenario: List pets available
+    Given I have available pets
+    When search for available pets
+    Then see the list with 7 of available pets
+    And 3 pets are named Lion

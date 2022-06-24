@@ -2,6 +2,7 @@ package cucumber.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -22,6 +23,7 @@ public class PetsStepDefinitions {
 
     PetApi petApi;
     private List<Pet> actualPets;
+    private Response actualPetsResponse;
 
     public PetsStepDefinitions(){
         petApi = new PetApi();
@@ -59,5 +61,30 @@ public class PetsStepDefinitions {
     @Given("I do not have {word} pets")
     public void iDoNotHaveSoldPets(String status) {
         petApi.deletePetsByStatus(status);
+    }
+
+    @When("search for {word} pets")
+    public void searchForAvailablePets(String status) {
+        actualPetsResponse = petApi.getPetsResponseByStatus(status);
+    }
+
+    @Then("see the list with {int} of {word} pets")
+    public void seeTheListOfAvailablePets(Integer quantity, String status) {
+        actualPetsResponse.
+                then().
+                statusCode(HttpStatus.SC_OK).
+                body(
+                        "size()", is(quantity),
+                        "findAll {it.status == '" + status + "' }.size()", is(quantity)
+                );
+    }
+
+    @And("{int} pets are named {word}")
+    public void petsAreNamedLion(Integer quantity, String name) {
+        actualPetsResponse.
+                then().
+                body(
+                      "findAll {it.name.contains('" + name + "') }.size()", is(quantity)
+                );
     }
 }
