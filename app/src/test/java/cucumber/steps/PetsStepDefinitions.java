@@ -51,7 +51,7 @@ public class PetsStepDefinitions {
         assertThat(actualPets, is(not(empty())));
     }
 
-    @Then("I see the list with {int} pet/pets")
+    @Then("I see the list with {} pet/pets")
     public void iSeeTheListWithPets(int petsQuantity) {
         assertThat(actualPets.size(), is(petsQuantity));
     }
