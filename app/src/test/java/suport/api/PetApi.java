@@ -59,4 +59,25 @@ public class PetApi {
                     extract().body().as(Pet.class);
     }
 
+    public void deleteExtraPets(String status) {
+        List<Integer> petsId = given().
+                pathParam("status", status).
+        when().
+                get(FIND_PETS_BY_STATUS_ENDPOINT).
+        thenReturn().
+                path("id");
+
+        List<Integer> petsToKeep = Arrays.asList(1, 2, 4, 7, 8, 9, 10);
+
+        for(int petId : petsId) {
+            if(!petsToKeep.contains(petId)) {
+                given().
+                        pathParam("id", petId).
+                delete(PET_ENDPOINT).
+                        then().
+                        statusCode(HttpStatus.SC_OK);
+            }
+        }
+    }
+
 }
