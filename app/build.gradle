@@ -26,6 +26,7 @@ dependencies {
     testImplementation 'io.cucumber:cucumber-java:6.8.+'
     testImplementation 'io.cucumber:cucumber-junit:6.8.+'
     testImplementation 'io.rest-assured:rest-assured:4.3.+'
+    testImplementation 'org.aeonbits.owner:owner:1.0.+'
 }
 
 application {
@@ -34,9 +35,7 @@ application {
 }
 
 
-dockerCompose.isRequiredBy(apiTest)
-
-task apiTest(type: Test) {}
+dockerCompose.isRequiredBy(test)
 
 task sanityTest(type: Test) {
     environment "CUCUMBER_FILTER_TAGS", "@sanity"
